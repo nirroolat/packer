@@ -5,7 +5,7 @@
         "source_ami": "ami-c01102a8",
         "instance_type": "m3.medium",
         "ami_name": "windows-ami {{timestamp}}",
-        "user_data_file": "{{template_dir}}/setup_winrm.txt",
+        "user_data_file": "{{template_dir}}/setup_winrm.ps1",
 
         "communicator": "winrm",
         "winrm_username": "Administrator"
