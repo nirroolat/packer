@@ -2,7 +2,7 @@
     "builders": [{
         "type": "amazon-ebs",
         "region": "us-east-1",
-        "source_ami": "ami-c01102a8",
+        "source_ami": "ami-10375468",
         "instance_type": "m3.medium",
         "ami_name": "windows-ami {{timestamp}}",
         "user_data_file": "{{template_dir}}/setup_winrm.ps1",
