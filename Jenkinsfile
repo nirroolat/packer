@@ -17,7 +17,7 @@ pipeline {
         stage('Parallel_Ami_Build') {
           steps {
             sh '''cd $WORKSPACE/centos_base
-/usr/local/bin/packer build centos.json'''
+/usr/local/bin/packer build centos2.json'''
           }
         }
       }

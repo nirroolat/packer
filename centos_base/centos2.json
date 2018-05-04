@@ -1,0 +1,54 @@
+{
+  "variables": {
+          "ami_id": "ami-a042f4d8",
+          "supervisor_version": "3.1.4-1.el7",
+          "auth_header": "{{env `AUTH_HEADER`}}"
+               },
+  "builders": [
+    {
+      "type": "amazon-ebs",
+      "region": "us-west-2",
+      "instance_type": "t2.micro",
+      "ssh_username": "centos",
+      "ami_name": "packer-latest-centos-apache-{{isotime | clean_ami_name }}",
+      "ami_description": "packer-latest-centos-apache",
+      "tags": {
+              "role": "MiddleTier",
+              "region": "us-west-2"
+      },
+      "run_tags": {
+              "role": "buildSystem"
+      },
+      "source_ami": "{{user `ami_id`}}"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "script": "ansible.sh"
+    },
+    { 
+      "type": "ansible-local",
+      "playbook_file": "./playbook.yml"
+    },
+    {
+      "type": "file",
+      "source": "ToUpload/",
+      "destination": "/tmp"
+    },
+    {
+      "type": "shell",
+      "script": "Scripts/nginx.sh",
+      "environment_vars": [
+              "AUTH_HEADER={{user `auth_header`}}"
+              ]
+    },
+    {
+      "type": "shell",
+      "inline": [
+              "echo '*** Configuring application'",
+              "sudo yum install -y supervisor-{{user `supervisor_version`}}"
+      ]
+    }
+  ]
+}
