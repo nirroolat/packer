@@ -14,12 +14,22 @@
 - name: Add this command to rc.local
   lineinfile: insertafter=EOF
               line={{ item }}
+              path=/etc/rc.d/rc.local
   with_items:
     - "/opt/nessus_agent/sbin/nessuscli agent link --key=9eb83491b27fb51c9b1145d42d59f02b08a49fca670816d950dc8f8cc75639c2 --host=cloud.tenable.com --port=443"
     - "/bin/systemctl start nessusagent.service"
+    - "/root/cleanuprclocal.sh"
     
 - name: Ensure that rc.local is executable
   file: path=/etc/rc.d/rc.local
         mode=0755
         owner=root
         group=root
+
+- name: Add cleanuprclocal.sh file (This prevents the nessus agent from re-registering in case the server is rebooted)
+  file: src=cleanuprclocal.sh
+        dest=/root/cleanuprclocal.sh
+        owner=root
+        group=root
+        mode=0755
+ 
