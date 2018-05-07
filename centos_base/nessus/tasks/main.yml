@@ -27,7 +27,7 @@
         group=root
 
 - name: Add cleanuprclocal.sh file (This prevents the nessus agent from re-registering in case the server is rebooted)
-  file: src=cleanuprclocal.sh
+  copy: src=cleanuprclocal.sh
         dest=/root/cleanuprclocal.sh
         owner=root
         group=root
