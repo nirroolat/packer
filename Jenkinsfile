@@ -6,15 +6,15 @@ pipeline {
         git(url: 'git@github.com:nirroolat/packer.git', branch: 'master')
       }
     }
-    stage('CreateAMI ') {
+    stage('CreateAMI') {
       parallel {
-        stage('CreateAMI ') {
+        stage('LinuxAMI') {
           steps {
             sh '''cd $WORKSPACE/centos_base
 /usr/local/bin/packer build centos.json'''
           }
         }
-        stage('Parallel_Ami_Build') {
+        stage('WindowsAMI') {
           steps {
             sh '''cd $WORKSPACE/windows_base
 /usr/local/bin/packer build windows.json'''

@@ -8,3 +8,14 @@
       service: name=nginx
                enabled=yes
                state=started
+
+    - name: Install Nessus Agent
+      yum: name=https://s3.amazonaws.com/bluebeam.deploy/Nessus/NessusAgent-7.0.3-es7.x86_64.rpm
+           state=present
+
+    - name: Link the Nessus Agent
+      command: /opt/nessus_agent/sbin/nessuscli agent link --key=9eb83491b27fb51c9b1145d42d59f02b08a49fca670816d950dc8f8cc75639c2 --host=cloud.tenable.com --port=443
+
+    - name: Start the Nessu Agent
+      command: /bin/systemctl start nessusagent.service
+ 
